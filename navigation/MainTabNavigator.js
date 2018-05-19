@@ -4,58 +4,45 @@ import { Ionicons } from '@expo/vector-icons';
 import { createStackNavigator, createBottomTabNavigator } from 'react-navigation';
 
 import TabBarIcon from '../components/TabBarIcon';
-import HomeScreen from '../screens/HomeScreen';
-import LinksScreen from '../screens/LinksScreen';
-import SettingsScreen from '../screens/SettingsScreen';
+import ArticlesScreen from '../screens/ArticlesScreen';
+import BooksScreen from '../screens/BooksScreen';
 
-const HomeStack = createStackNavigator({
-  Home: HomeScreen,
+const ArticlesStack = createStackNavigator({
+  Articles: ArticlesScreen,
 });
 
-HomeStack.navigationOptions = {
-  tabBarLabel: 'Home',
+ArticlesStack.navigationOptions = {
+  tabBarLabel: 'Articles',
   tabBarIcon: ({ focused }) => (
     <TabBarIcon
       focused={focused}
       name={
         Platform.OS === 'ios'
-          ? `ios-information-circle${focused ? '' : '-outline'}`
-          : 'md-information-circle'
+          ? `ios-paper${focused ? '' : '-outline'}`
+          : 'md-paper'
       }
     />
   ),
 };
 
-const LinksStack = createStackNavigator({
-  Links: LinksScreen,
+const BooksStack = createStackNavigator({
+  Links: BooksScreen,
 });
 
-LinksStack.navigationOptions = {
-  tabBarLabel: 'Links',
+BooksStack.navigationOptions = {
+  tabBarLabel: 'Books',
   tabBarIcon: ({ focused }) => (
     <TabBarIcon
       focused={focused}
-      name={Platform.OS === 'ios' ? `ios-link${focused ? '' : '-outline'}` : 'md-link'}
-    />
-  ),
-};
-
-const SettingsStack = createStackNavigator({
-  Settings: SettingsScreen,
-});
-
-SettingsStack.navigationOptions = {
-  tabBarLabel: 'Settings',
-  tabBarIcon: ({ focused }) => (
-    <TabBarIcon
-      focused={focused}
-      name={Platform.OS === 'ios' ? `ios-options${focused ? '' : '-outline'}` : 'md-options'}
+      name={ Platform.OS === 'ios'
+        ? `ios-book${focused ? '' : '-outline'}`
+        : 'md-book'
+      }
     />
   ),
 };
 
 export default createBottomTabNavigator({
-  HomeStack,
-  LinksStack,
-  SettingsStack,
+  ArticlesStack,
+  BooksStack,
 });
