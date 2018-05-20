@@ -87,6 +87,8 @@ export default class ArticlesScreen extends React.Component {
             </Text>
           </TouchableOpacity>
         </View>
+
+        {/* Content */}
         { this.state.isLoading ?
           <ActivityIndicator size='large'/>
           :
