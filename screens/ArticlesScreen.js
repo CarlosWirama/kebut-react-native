@@ -1,6 +1,6 @@
 import React from 'react';
 import { FlatList, StyleSheet, Text, TextInput, TouchableOpacity,
-  View, ActivityIndicator, Linking } from 'react-native';
+  View, ActivityIndicator, Linking, Image } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import Keys from '../constants/Keys';
 
@@ -65,35 +65,36 @@ export default class ArticlesScreen extends React.Component {
     <ListItem index={index} item={item} />
 
   render() {
-    console.log(this.state.articles)
     return (
       <View style={styles.container}>
 
-        {/* Search Input */}
-        <View style={styles.searchInputContainer}>
-          <TextInput
-            style={styles.searchInput}
-            onChangeText={this.onChangeSearch}
-            value={this.state.searchString}
-            onSubmitEditing={this.onSearch}
-          />
+        <View style={{marginBottom: 10}}>
+          {/* Search Input */}
+          <View style={styles.searchInputContainer}>
+            <TextInput
+              style={styles.searchInput}
+              onChangeText={this.onChangeSearch}
+              value={this.state.searchString}
+              onSubmitEditing={this.onSearch}
+            />
+            <TouchableOpacity
+              style={styles.searchIcon}
+              onPress={this.onSearch}
+            >
+              <Ionicons name="ios-search" size={32} color="gray" />
+            </TouchableOpacity>
+          </View>
+
+          {/* Sort / Filter Options */}
           <TouchableOpacity
-            style={styles.searchIcon}
-            onPress={this.onSearch}
+            style={styles.largeButton}
+            onPress={this.toggleSort}
           >
-            <Ionicons name="ios-search" size={32} color="gray" />
+            <Text style={styles.largeButtonText}>
+              Sort by: {this.state.sort}
+            </Text>
           </TouchableOpacity>
         </View>
-
-        {/* Sort / Filter Options */}
-        <TouchableOpacity
-          style={styles.largeButton}
-          onPress={this.toggleSort}
-        >
-          <Text style={styles.largeButtonText}>
-            Sort by: {this.state.sort}
-          </Text>
-        </TouchableOpacity>
         { this.state.isLoading ?
           <ActivityIndicator size='large'/>
           :
@@ -101,7 +102,7 @@ export default class ArticlesScreen extends React.Component {
             data={this.state.articles}
             renderItem={this._renderItem}
             style={styles.container}
-            contentContainerStyle={styles.listContainer}
+            // contentContainerStyle={styles.listContainer}
             keyExtractor={this._keyExtractor}
             extraData={this.state}
           />
@@ -112,16 +113,22 @@ export default class ArticlesScreen extends React.Component {
 }
 
 class ListItem extends React.PureComponent {
-  // <Text>{props.snippet}</Text>
   render() {
     const { item } = this.props;
+    const blankImageUrl = 'http://www.wellesleysocietyofartists.org/wp-content/uploads/2015/11/image-not-found.jpg';
+    const multimediaObj = item.multimedia.find(o => o.crop_name === 'thumbStandard');
+    const { url } = multimediaObj || {};
+    const uri = url ? `http://www.nytimes.com/${url}` : blankImageUrl;
     return (
       <TouchableOpacity
         onPress={() => Linking.openURL(item.web_url)}
         style={styles.listItemContainer}
       >
-        <Text>{item.headline.print_headline}</Text>
-        <Text>{item.snippet}</Text>
+        <Image style={styles.thumb} source={{ uri }} />
+        <View style={{flex: 1}}>
+          <Text style={{fontWeight: 'bold'}}>{item.headline.print_headline}</Text>
+          <Text numberOfLines={4}>{item.snippet}</Text>
+        </View>
       </TouchableOpacity>
     );
   }
@@ -132,21 +139,18 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: '#fff',
   },
-  listContainer: {
-    // backgroundColor:'lightgray'
-  },
   listItemContainer: {
+    flexDirection: 'row',
     backgroundColor: 'white',
     padding: 10,
     borderBottomWidth: 1,
-    borderBottomColor: 'lightgray'
+    borderBottomColor: 'lightgray',
   },
-  // h2: {
-  //   fontSize: 17,
-  //   color: 'rgba(96,100,109, 1)',
-  //   lineHeight: 24,
-  //   textAlign: 'center',
-  // },
+  thumb: {
+    width: 75,
+    height: 75,
+    marginRight: 10,
+  },
   searchInput: {
     width: '100%',
     height: 40,
@@ -172,8 +176,7 @@ const styles = StyleSheet.create({
   largeButtonText: {
     fontSize: 17,
     color: 'black',
-    // color: 'rgba(96,100,109, 1)',
     lineHeight: 24,
     textAlign: 'center',
-  }
+  },
 });
