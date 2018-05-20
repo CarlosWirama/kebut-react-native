@@ -3,6 +3,7 @@ import { FlatList, StyleSheet, Text, TextInput, TouchableOpacity,
   View, ActivityIndicator, Linking, Image } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import Keys from '../constants/Keys';
+import { fetchNYTimesAPI } from '../api/fetcher';
 
 export default class ArticlesScreen extends React.Component {
 
@@ -22,9 +23,7 @@ export default class ArticlesScreen extends React.Component {
   }
 
   componentDidMount() {
-    // fetch articles
     this.search();
-    //const articles = [{key: 'a'}, {key: 'b'}];
   }
 
   onChangeSearch = txt => this.setState({searchString:txt})
@@ -39,21 +38,14 @@ export default class ArticlesScreen extends React.Component {
   onSearch = () => this.search(this.state.searchString)
 
   search = (q = '', sort = 'newest') => {
-    let url = "https://api.nytimes.com/svc/search/v2/articlesearch.json";
+    const searchEndpoint = "/search/v2/articlesearch.json";
     const params = {
       q, sort,
       'api-key': Keys.NYTimes,
     };
-
-    const querystring = Object.keys(params)
-      .map(key => key + '=' + encodeURIComponent(params[key]))
-      .join('&');
-
-    console.log(`${url}?${querystring}`);
     this.setState({isLoading: true});
-    fetch(`${url}?${querystring}`)
-      .then(response => response.json())
-      .then(json => this.updateList(json.response.docs))
+    fetchNYTimesAPI(searchEndpoint, params)
+      .then(list => this.updateList(list))
       .finally( () => this.setState({isLoading: false}) );
   }
 
