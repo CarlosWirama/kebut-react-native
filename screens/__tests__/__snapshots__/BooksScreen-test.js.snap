@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`should render ArticlesScreen with List after 3s 1`] = `
+exports[`should render BooksScreen with List after 3s 1`] = `
 <View
   style={
     Object {
@@ -17,22 +17,6 @@ exports[`should render ArticlesScreen with List after 3s 1`] = `
       }
     }
   >
-    <TextInput
-      allowFontScaling={true}
-      onChangeText={[Function]}
-      onSubmitEditing={[Function]}
-      placeholder="Enter search keywords"
-      style={
-        Object {
-          "borderColor": "gray",
-          "borderWidth": 1,
-          "height": 40,
-          "padding": 5,
-          "width": "100%",
-        }
-      }
-      value=""
-    />
     <View
       style={
         Object {
@@ -78,7 +62,7 @@ exports[`should render ArticlesScreen with List after 3s 1`] = `
           allowFontScaling={true}
           ellipsizeMode="tail"
         >
-          Newest First
+          E-Book Fiction
         </Text>
       </View>
       <View
@@ -115,76 +99,9 @@ exports[`should render ArticlesScreen with List after 3s 1`] = `
           allowFontScaling={true}
           ellipsizeMode="tail"
         >
-          Oldest First
+          Hardcover Fiction
         </Text>
       </View>
-    </View>
-    <View
-      accessibilityComponentType={undefined}
-      accessibilityLabel={undefined}
-      accessibilityTraits={undefined}
-      accessible={true}
-      collapsable={undefined}
-      hasTVPreferredFocus={undefined}
-      hitSlop={undefined}
-      isTVSelectable={true}
-      nativeID={undefined}
-      onLayout={undefined}
-      onResponderGrant={[Function]}
-      onResponderMove={[Function]}
-      onResponderRelease={[Function]}
-      onResponderTerminate={[Function]}
-      onResponderTerminationRequest={[Function]}
-      onStartShouldSetResponder={[Function]}
-      style={
-        Object {
-          "alignItems": "center",
-          "backgroundColor": "lightgreen",
-          "flexDirection": "row",
-          "justifyContent": "center",
-          "opacity": 1,
-          "padding": 5,
-        }
-      }
-      testID={undefined}
-      tvParallaxProperties={undefined}
-    >
-      <Text
-        accessible={true}
-        allowFontScaling={true}
-        ellipsizeMode="tail"
-        style={
-          Object {
-            "color": "gray",
-            "fontSize": 17,
-            "fontWeight": "bold",
-            "lineHeight": 24,
-          }
-        }
-      >
-        Search 
-      </Text>
-      <Text
-        accessible={true}
-        allowFontScaling={false}
-        ellipsizeMode="tail"
-        style={
-          Array [
-            Object {
-              "color": "gray",
-              "fontSize": 25,
-            },
-            undefined,
-            Object {
-              "fontFamily": "ionicons",
-              "fontStyle": "normal",
-              "fontWeight": "normal",
-            },
-          ]
-        }
-      >
-        
-      </Text>
     </View>
   </View>
   <ActivityIndicator
@@ -196,7 +113,7 @@ exports[`should render ArticlesScreen with List after 3s 1`] = `
 </View>
 `;
 
-exports[`should render initial ArticlesScreen 1`] = `
+exports[`should render initial BooksScreen 1`] = `
 <View
   style={
     Object {
@@ -213,22 +130,6 @@ exports[`should render initial ArticlesScreen 1`] = `
       }
     }
   >
-    <TextInput
-      allowFontScaling={true}
-      onChangeText={[Function]}
-      onSubmitEditing={[Function]}
-      placeholder="Enter search keywords"
-      style={
-        Object {
-          "borderColor": "gray",
-          "borderWidth": 1,
-          "height": 40,
-          "padding": 5,
-          "width": "100%",
-        }
-      }
-      value=""
-    />
     <View
       style={
         Object {
@@ -274,7 +175,7 @@ exports[`should render initial ArticlesScreen 1`] = `
           allowFontScaling={true}
           ellipsizeMode="tail"
         >
-          Newest First
+          E-Book Fiction
         </Text>
       </View>
       <View
@@ -311,60 +212,9 @@ exports[`should render initial ArticlesScreen 1`] = `
           allowFontScaling={true}
           ellipsizeMode="tail"
         >
-          Oldest First
+          Hardcover Fiction
         </Text>
       </View>
-    </View>
-    <View
-      accessibilityComponentType={undefined}
-      accessibilityLabel={undefined}
-      accessibilityTraits={undefined}
-      accessible={true}
-      collapsable={undefined}
-      hasTVPreferredFocus={undefined}
-      hitSlop={undefined}
-      isTVSelectable={true}
-      nativeID={undefined}
-      onLayout={undefined}
-      onResponderGrant={[Function]}
-      onResponderMove={[Function]}
-      onResponderRelease={[Function]}
-      onResponderTerminate={[Function]}
-      onResponderTerminationRequest={[Function]}
-      onStartShouldSetResponder={[Function]}
-      style={
-        Object {
-          "alignItems": "center",
-          "backgroundColor": "lightgreen",
-          "flexDirection": "row",
-          "justifyContent": "center",
-          "opacity": 1,
-          "padding": 5,
-        }
-      }
-      testID={undefined}
-      tvParallaxProperties={undefined}
-    >
-      <Text
-        accessible={true}
-        allowFontScaling={true}
-        ellipsizeMode="tail"
-        style={
-          Object {
-            "color": "gray",
-            "fontSize": 17,
-            "fontWeight": "bold",
-            "lineHeight": 24,
-          }
-        }
-      >
-        Search 
-      </Text>
-      <Text
-        accessible={true}
-        allowFontScaling={true}
-        ellipsizeMode="tail"
-      />
     </View>
   </View>
   <ActivityIndicator

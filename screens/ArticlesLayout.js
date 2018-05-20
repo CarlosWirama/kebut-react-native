@@ -8,7 +8,7 @@ import OptionBar from '../components/OptionBar';
 
 export default function ArticlesLayout (props) {
 
-  const _keyExtractor = (item, index) => index
+  const _keyExtractor = (item, index) => index.toString()
 
   const _renderItem = ({ item, index }) =>
     <Article index={index} item={item} />

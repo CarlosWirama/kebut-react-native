@@ -8,7 +8,7 @@ import OptionBar from '../components/OptionBar';
 
 export default function BooksLayout (props) {
 
-  const _keyExtractor = (item, index) => index
+  const _keyExtractor = (item, index) => index.toString()
 
   const _renderItem = ({ item, index }) =>
     <Books index={index} item={item} />
