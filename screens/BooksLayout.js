@@ -46,10 +46,11 @@ class Books extends React.PureComponent {
         onPress={() => Linking.openURL(item.amazon_product_url)}
         style={styles.listItemContainer}
       >
-        <View style={{flex: 1}}>
+        <Text>
           <Text style={{fontWeight: 'bold'}}>{item.book_details[0].title}</Text>
-          <Text numberOfLines={4}>{item.book_details[0].description}</Text>
-        </View>
+          <Text style={{color: 'gray'}}> - {item.book_details[0].author}</Text>
+        </Text>
+        <Text numberOfLines={4}>{item.book_details[0].description}</Text>
       </TouchableOpacity>
     );
   }
@@ -61,7 +62,6 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
   },
   listItemContainer: {
-    flexDirection: 'row',
     backgroundColor: 'white',
     padding: 10,
     borderBottomWidth: 1,
