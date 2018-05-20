@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "kebut-react-native",
-    "description": "A very interesting project.",
+    "name": "Assessment CarlosWirama",
+    "description": "Kebut-kebutan coding React Native",
     "slug": "kebut-react-native",
     "privacy": "public",
     "sdkVersion": "27.0.0",
@@ -21,7 +21,11 @@
       "**/*"
     ],
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier": "com.yourcompany.yourappname"
+    },
+    "android": {
+      "package": "com.yourcompany.yourappname"
     }
   }
 }
