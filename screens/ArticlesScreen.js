@@ -1,9 +1,9 @@
+'use strict';
+
 import React from 'react';
-import { FlatList, StyleSheet, Text, TextInput, TouchableOpacity,
-  View, ActivityIndicator, Linking, Image } from 'react-native';
-import { Ionicons } from '@expo/vector-icons';
 import Keys from '../constants/Keys';
 import { fetchNYTimesAPI } from '../api/fetcher';
+import ArticlesLayout from './ArticlesLayout';
 
 export default class ArticlesScreen extends React.Component {
 
@@ -15,162 +15,65 @@ export default class ArticlesScreen extends React.Component {
     super();
     this.state = {
       searchString: '',
-      articles: [],
+      list: [],
       sort: 'newest',
       isLoading: false,
+      options: [
+        {
+          dataValue: 'newest',
+          displayText: 'Newest First',
+          choosen:true
+        },
+        {
+          dataValue: 'oldest',
+          displayText: 'Oldest First',
+          choosen:false
+        }
+      ],
     };
-    this.onChangeSearch.bind(this);
   }
 
   componentDidMount() {
-    this.search();
+    this._search();
   }
 
   onChangeSearch = txt => this.setState({searchString:txt})
 
-  toggleSort = () => {
-    const { sort, searchString } = this.state;
-    const newSortRule = (sort === 'newest') ? 'oldest' : 'newest';
-    this.setState({sort: newSortRule});
-    this.search(searchString, newSortRule);
+  toggleOption = value => {
+    const { searchString, options } = this.state;
+    const newOptions = options.map(
+      op => op.choosen = (op.dataValue == value)
+    );
+    this.setState({sort: value});
+    // this._search(searchString, value);
   }
   
-  onSearch = () => this.search(this.state.searchString)
+  onSearch = () => this._search(this.state.searchString, this.state.sort)
+  
 
-  search = (q = '', sort = 'newest') => {
-    const searchEndpoint = "/search/v2/articlesearch.json";
+  _search = (q = '', sort = 'newest') => {
+    const searchEndpoint = "/svc/search/v2/articlesearch.json";
     const params = {
       q, sort,
       'api-key': Keys.NYTimes,
     };
     this.setState({isLoading: true});
     fetchNYTimesAPI(searchEndpoint, params)
-      .then(list => this.updateList(list))
+      .then(r => this._updateList(r.response.docs))
       .finally( () => this.setState({isLoading: false}) );
   }
 
-  updateList = articles => this.setState({articles})
-
-  _keyExtractor = (item, index) => index
-
-  _renderItem = ({ item, index }) =>
-    <ListItem index={index} item={item} />
+  _updateList = list => this.setState({list})
 
   render() {
     return (
-      <View style={styles.container}>
-
-        <View style={{marginBottom: 10}}>
-          {/* Search Input */}
-          <View style={styles.searchInputContainer}>
-            <TextInput
-              style={styles.searchInput}
-              onChangeText={this.onChangeSearch}
-              value={this.state.searchString}
-              onSubmitEditing={this.onSearch}
-            />
-            <TouchableOpacity
-              style={styles.searchIcon}
-              onPress={this.onSearch}
-            >
-              <Ionicons name="ios-search" size={32} color="gray" />
-            </TouchableOpacity>
-          </View>
-
-          {/* Sort / Filter Options */}
-          <TouchableOpacity
-            style={styles.largeButton}
-            onPress={this.toggleSort}
-          >
-            <Text style={styles.largeButtonText}>
-              Sort by: {this.state.sort}
-            </Text>
-          </TouchableOpacity>
-        </View>
-
-        {/* Content */}
-        { this.state.isLoading ?
-          <ActivityIndicator size='large'/>
-          :
-          <FlatList
-            data={this.state.articles}
-            renderItem={this._renderItem}
-            style={styles.container}
-            // contentContainerStyle={styles.listContainer}
-            keyExtractor={this._keyExtractor}
-            extraData={this.state}
-          />
-        }
-      </View>
+      <ArticlesLayout
+        onChangeSearch={this.onChangeSearch}
+        toggleOption={this.toggleOption}
+        onSearch={this.onSearch}
+        {...this.state}
+      />
     );
   }
 }
 
-class ListItem extends React.PureComponent {
-  render() {
-    const { item } = this.props;
-    const blankImageUrl = 'http://www.wellesleysocietyofartists.org/wp-content/uploads/2015/11/image-not-found.jpg';
-    const multimediaObj = item.multimedia.find(o => o.crop_name === 'thumbStandard');
-    const { url } = multimediaObj || {};
-    const uri = url ? `http://www.nytimes.com/${url}` : blankImageUrl;
-    return (
-      <TouchableOpacity
-        onPress={() => Linking.openURL(item.web_url)}
-        style={styles.listItemContainer}
-      >
-        <Image style={styles.thumb} source={{ uri }} />
-        <View style={{flex: 1}}>
-          <Text style={{fontWeight: 'bold'}}>{item.headline.print_headline}</Text>
-          <Text numberOfLines={4}>{item.snippet}</Text>
-        </View>
-      </TouchableOpacity>
-    );
-  }
-}
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-  },
-  listItemContainer: {
-    flexDirection: 'row',
-    backgroundColor: 'white',
-    padding: 10,
-    borderBottomWidth: 1,
-    borderBottomColor: 'lightgray',
-  },
-  thumb: {
-    width: 75,
-    height: 75,
-    marginRight: 10,
-  },
-  searchInput: {
-    width: '100%',
-    height: 40,
-    padding: 5,
-    borderColor: 'gray',
-    borderWidth: 1,
-  },
-  searchIcon: {
-    position: 'absolute',
-    right: 0,
-    top: 10,
-    padding: 5,
-    width: 50,
-  },
-  searchInputContainer: {
-    padding: 10,
-    flexDirection: 'row',
-  },
-  largeButton: {
-    padding: 5,
-    backgroundColor: 'lightgreen',
-  },
-  largeButtonText: {
-    fontSize: 17,
-    color: 'black',
-    lineHeight: 24,
-    textAlign: 'center',
-  },
-});
